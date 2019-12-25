@@ -1,7 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Contact = sequelize.define('Contact', {
-    id: DataTypes.STRING,
+    id: {
+      allowNull: false,
+      primaryKey: true,
+      type: DataTypes.STRING
+    },
     name: DataTypes.STRING,
     company: DataTypes.STRING,
     address: DataTypes.STRING,

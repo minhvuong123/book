@@ -1,11 +1,70 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Category = sequelize.define('Category', {
-    id: DataTypes.STRING,
-    name: DataTypes.STRING
+    id: {
+      allowNull: false,
+      primaryKey: true,
+      type: DataTypes.STRING
+    },
+    name: DataTypes.STRING,
+    slugName: DataTypes.STRING,
   }, {});
   Category.associate = function(models) {
     // associations can be defined here
   };
+
+  Category.getAll = (attributes = [], query = {}, ...options) => 
+    new Promise( async (resolve, reject) => {
+      try {
+        let categories = null;
+        if(attributes.length > 0){
+          categories = await Category.findAll({ attributes, ...query, ...options[0] });
+        } else {
+          categories = await Category.findAll({ ...query, ...options[0] });
+        }
+        resolve(categories);
+      } catch (err) {
+        err.code = 500;
+        err.msg = "Query error"
+        reject(err);
+      }
+  })
+
+  Category.add = (attributes = {}) =>
+    new Promise( async (resolve, reject) => {
+      try {
+          const category = await Category.create({ ...attributes });
+          resolve(category);
+      } catch (err) {1
+        err.code = 500;
+        err.msg = "Query error"
+        reject(err);
+      }
+  }); 
+
+  Category.delete = (query = {}) =>
+    new Promise( async (resolve, reject) => {
+      try {
+          const category = await Category.destroy({ ...query });
+          resolve(category);
+      } catch (err) {
+        err.code = 500;
+        err.msg = "Query error"
+        reject(err);
+      }
+  }); 
+
+  Category.modify = (attributes = {}, query = {}) =>
+    new Promise( async (resolve, reject) => {
+      try {
+          const category = await Category.update({ ...attributes }, {...query });
+          resolve(category);
+      } catch (err) {
+        err.code = 500;
+        err.msg = "Query error"
+        reject(err);
+      }
+  }); 
+
   return Category;
 };

@@ -4,7 +4,6 @@ module.exports = {
     return queryInterface.createTable('Shippers', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
         type: Sequelize.STRING
       },

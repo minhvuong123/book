@@ -17,6 +17,7 @@ app.set((req, res, next) => {
 })
 
 // Routes
+app.use('/api/category', require('./routes/category'));
 
 // Public
 app.use(express.static(path.join(__dirname, 'public')));
